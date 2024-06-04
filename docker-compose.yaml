@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  db_aut:
+    container_name: todolist-db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    image: postgres:14-alpine3.19
+
+  app:
+    container_name: todolist-app
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      - db_aut
